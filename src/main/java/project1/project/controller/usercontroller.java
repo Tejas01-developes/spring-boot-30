@@ -3,14 +3,12 @@ package project1.project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project1.project.schemas.userschema;
 import project1.project.service.usersservice;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/apis")
@@ -34,11 +32,15 @@ public class usercontroller {
             return  ResponseEntity.badRequest().body(Map.of("message","insertion failed"));
         }
     }
+    @GetMapping("/get")
     public ResponseEntity<?> getdetails(@RequestBody userschema data){
     try{
-        usersservice.getdetail(data);
+       Optional<userschema> res= usersservice.getdetail(data);
+       if(res.isEmpty()){
+           return ResponseEntity.badRequest().body(Map.of("message","result is empty"));
+       }
 
-        return  ResponseEntity.ok().body(Map.of("message","details fetch succesfully done"));
+        return  ResponseEntity.ok().body(res);
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
