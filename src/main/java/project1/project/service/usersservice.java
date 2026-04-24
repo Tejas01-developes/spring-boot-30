@@ -26,7 +26,9 @@ public userschema inseruser(userschema data) throws Exception {
 
 public Optional<userschema> getdetail(userschema data){
     try{
-       return usersrepo.findById(data.getUserid());
+      Optional<userschema> result=  usersrepo.findById(data.getUserid());
+
+        return  result;
     } catch (Exception e) {
         throw new RuntimeException(e);
     }

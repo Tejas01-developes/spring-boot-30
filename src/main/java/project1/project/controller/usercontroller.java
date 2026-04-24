@@ -39,8 +39,12 @@ public class usercontroller {
        if(res.isEmpty()){
            return ResponseEntity.badRequest().body(Map.of("message","result is empty"));
        }
+    boolean compare=bcrypt.matches(data.getPassword(), res.get().getPassword());
+       if(!compare){
+           return ResponseEntity.badRequest().body(Map.of("message","password is incorrect"));
+       }
+       return  ResponseEntity.ok().body(Map.of("message","login success"));
 
-        return  ResponseEntity.ok().body(res);
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
