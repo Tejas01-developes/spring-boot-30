@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import project1.project.schemas.userschema;
 import project1.project.service.usersservice;
+import project1.project.tokens.tokens;
 
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,9 @@ public class usercontroller {
     private usersservice usersservice;
     @Autowired
     private BCryptPasswordEncoder bcrypt=new BCryptPasswordEncoder();
+
+    @Autowired
+    private tokens tokens;
 @PostMapping("/")
     public ResponseEntity<?>inseruser(@RequestBody userschema data) {
         String hash = bcrypt.encode(data.getPassword());
@@ -43,6 +47,13 @@ public class usercontroller {
        if(!compare){
            return ResponseEntity.badRequest().body(Map.of("message","password is incorrect"));
        }
+
+       String accesstkn=tokens.accesstoken(res.get().getUserid());
+       String refreshtkn;
+
+
+
+
        return  ResponseEntity.ok().body(Map.of("message","login success"));
 
     } catch (Exception e) {
