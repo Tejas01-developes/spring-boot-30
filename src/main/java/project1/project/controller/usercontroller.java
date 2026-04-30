@@ -50,10 +50,6 @@ public class usercontroller {
 
        String accesstkn=tokens.accesstoken(res.get().getUserid());
        String refreshtkn;
-
-
-
-
        return  ResponseEntity.ok().body(Map.of("message","login success"));
 
     } catch (Exception e) {
@@ -61,7 +57,4 @@ public class usercontroller {
     }
 
     }
-
-
-
 }
